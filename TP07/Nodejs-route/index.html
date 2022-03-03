@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book Shop</title>
+    <style>
+      body {
+    margin: 0;
+  }
+  /* .bigContainer {
+    width: 100%;
+    position: relative;
+    height: 100vh;
+  } */
+  .leftSize {
+    width: 20%;
+    position: fixed;
+    background-color: rgb(218, 216, 216);
+    height: 100%;
+    margin: 20px 10px 0px 30px;
+  }
+  .name {
+    margin: 10px 0px 0px 10px;
+    font-size: 22px;
+  }
+  .name #title {
+    width: 80%;
+    height: 22px;
+    font-size: 20px;
+  }
+  .category {
+    margin: 10px 0px 0px 10px;
+    font-size: 22px;
+  }
+  .category #type {
+    width: 80%;
+    height: 22px;
+    font-size: 20px;
+  }
+  .price {
+    margin: 10px 0px 0px 10px;
+    font-size: 22px;
+  }
+  .price #money {
+    width: 80%;
+    height: 22px;
+    font-size: 20px;
+  }
+  .mainSize {
+    width: 80%;
+    left: 22.5%;
+    position: absolute;
+    height: 100%;
+    background-color: rgb(185, 183, 183);
+    margin: 10px 0px 0px 10px;
+  }
+  #block {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    align-content: stretch;
+  }
+  #box {
+    width: 270px;
+    height: 30vh;
+    border: 1px solid black;
+    margin: 0px 5px 5px 0px;
+    background-color: white;
+    position: relative;
+  }
+  .button {
+    position: absolute;
+    right: 0;
+  }
+  .text {
+    position: absolute;
+    left: 0;
+    bottom: 10px;
+    font-size: 24px;
+  }
+    </style>
+  </head>
+  <body>
+    <!-- <div class="bigContainer"> -->
+    <div class="leftSize">
+      <form>
+        <div class="name">
+          Name: <br />
+          <input type="text" id="title" name="title" />
+        </div>
+        <div class="category">
+          Category: <br />
+          <input type="text" id="type" name="type" />
+        </div>
+
+        <div class="price">
+          Price: <br />
+          <input type="text" id="money" name="money" /><br />
+          <input type="submit" id="add" value="Add" onclick="onSubmit()" />
+        </div>
+      </form>
+    </div>
+    <div class="mainSize">
+      <div id="block">
+        <div id="box">
+          <div class="button">
+            <button onclick="onDelete()">Delete</button>
+            <button onclick="onUpdate()">Update</button>
+          </div>
+          <div class="text">
+            <span>Name:</span> <br />
+            <span>Category:</span> <br />
+            <span>Price:</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- </div> -->
+    <script>
+      const url = 'https://jsonplaceholder.typicode.com/photos'
+
+
+async function getAPI(url){
+    
+    let response = await fetch(url);
+     
+    let data = await response.json()
+    console.log(data)
+   renderList(data)
+}
+
+getAPI(url);
+
+
+function renderList(data){
+    let grid = document.getElementById('block')
+    let boxes = '';
+    grid.innerHTML='';
+    
+    data.forEach((r,i)=>{
+        boxes += `
+        <div id="box" >
+            <div class="button">
+                <button onclick="onDelete(${i})" >Delete</button>
+                <button onclick="onUpdate(${i})" >Update</button>
+            </div>
+            <div class="text">
+                <span i>Name: ${r.albumId}</span> <br />
+                <span >Category: ${r.id}</span> <br />
+                <span >Price: ${r.title}</span>
+            </div>
+        </div>   
+        `
+    })
+    grid.innerHTML=boxes;
+}
+    </script>
+  </body>
+</html>
