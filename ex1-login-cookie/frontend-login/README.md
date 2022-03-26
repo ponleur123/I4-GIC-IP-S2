@@ -1,4 +1,4 @@
-# ex1-login-cookie
+# frontend-login
 
 ## Project setup
 ```
