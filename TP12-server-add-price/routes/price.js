@@ -17,7 +17,7 @@ router.post('/create',auth.ensureSignedIn,async (req,res)=>{
     res.json(result)
 })
 
-router.get('/all',(req,res)=>{
+router.get('/all',async (req,res)=>{
     res.json(await priceService.findAll({}))
 })
 
