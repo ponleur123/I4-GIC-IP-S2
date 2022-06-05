@@ -2,7 +2,8 @@ var express = require('express')
 var app = express()
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose')
-  
+
+var sharp = require('sharp')
 var fs = require('fs');
 var path = require('path');
 
@@ -55,18 +56,31 @@ app.get('/', (req, res) => {
 		}
 	});
 });
-
+app.get('/display',(req,res)=>{
+	imgModel.find({},(err,items)=>{
+		if(err){
+			console.log(err);
+			res.status(500).send(err)
+		}
+		else{
+			res.render('displayPage',{items:items});
+		}
+	})
+})
 // Step 8 - the POST handler for processing the uploaded file
 
 app.post('/', upload.single('image'), (req, res, next) => {
 
 	var obj = {
-		name: req.body.name,
-		desc: req.body.desc,
+		
 		img: {
 			data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
+			
+			// data: sharp(__dirname + '/uploads' + req.file.filename).resize(50,50),
 			contentType: 'image/png'
+			
 		}
+		
 	}
 	imgModel.create(obj, (err, item) => {
 		if (err) {
